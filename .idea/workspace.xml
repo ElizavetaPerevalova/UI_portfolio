@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5444c740-2f19-4998-81d4-f7a6c54be932" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/UI_portfolio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UI_portfolio.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sber1.py" beforeDir="false" afterPath="$PROJECT_DIR$/sber1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sber1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sber2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +37,8 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python tests.Python tests in sber1.py.executor": "Run",
+    "Python tests.Python tests in sberkasko.py.executor": "Run",
+    "Python tests.Python tests in test1.py.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
