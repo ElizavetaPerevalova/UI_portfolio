@@ -3,7 +3,7 @@ import re
 from playwright.sync_api import Page, expect
 
 
-def test_stays_booking(auth_page: Page):
+def test_stays_booking(logged_in_session, auth_page: Page):
     auth_page.goto("https://phptravels.net", wait_until="domcontentloaded")
     print("[START] URL after 1st goto:", auth_page.url)
 

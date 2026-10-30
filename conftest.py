@@ -59,7 +59,7 @@ def _close_demo_modal(page):
         pass
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def logged_in_session():
     auth_file = "auth.json"
 
