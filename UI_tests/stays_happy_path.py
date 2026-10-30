@@ -65,19 +65,17 @@ def test_stays_booking(logged_in_session, auth_page: Page):
     )
     results_marker.wait_for(state="visible", timeout=60000)
     print("[INFO] Results are ready:", results_marker.inner_text())
-    # auth_page.locator("select[x-model='sortBy']").select_option("price_low")
-    # auth_page.get_by_text("More details").first.click()
 
     with auth_page.context.expect_page() as new_page_info:
         auth_page.get_by_text("More details").first.click()
 
-    # Получаем эту новую вкладку
+
     hotel_page = new_page_info.value
 
-    # Ждем, пока она прогрузится
+
     hotel_page.wait_for_load_state("domcontentloaded")
     print(f"[SUCCESS] Switched to new tab: {hotel_page.url}")
-    # select an option
+
     hotel_page.locator("span:text-is('Select'):visible").first.click()
 
 
@@ -85,36 +83,23 @@ def test_stays_booking(logged_in_session, auth_page: Page):
 
     hotel_page.locator("span:text-is('Continue Booking'):visible").first.click()
 
-
     hotel_page.wait_for_load_state("domcontentloaded")
 
-    # 1. Выбираем титул (используем тег select и атрибут x-model)
     hotel_page.locator("select[x-model='formData.travelers.room_0.adult_1.title']").select_option("Ms")
 
-    # 2. Заполняем имя (используем тег input и сохраняем в новую переменную!)
+
     first_name_input = hotel_page.locator("input[x-model='formData.travelers.room_0.adult_1.first_name']")
     first_name_input.fill("Jane")
 
-    # 3. Заполняем фамилию
+
     last_name_input = hotel_page.locator("input[x-model='formData.travelers.room_0.adult_1.last_name']")
     last_name_input.fill("Doe")
     hotel_page.locator("label[for='payment_3']").click()
 
-    # 1. Сначала НАХОДИМ элемент и сохраняем в переменную (без .click() в конце!)
     hotel_page.locator("#terms_accepted + .checkbox-custom").click()
-
-
     hotel_page.get_by_role("button", name="Confirm Booking").click()
 
     hotel_page.wait_for_url("**/invoice/**", timeout=400000)
-
-
-    # Проверяем статусы
     expect(hotel_page.get_by_text("Booking Received")).to_be_visible()
-    # expect(hotel_page.get_by_text("Invoice")).to_be_visible()
-
-
-    # Вытаскиваем номер инвойса для лога
     invoice_text = hotel_page.locator("text=/Invoice #[A-Z0-9]+/").first.inner_text()
     print(f"[SUCCESS] Hotel booked successfully! {invoice_text}")
-    hotel_page.wait_for_timeout(1000*60*5)
