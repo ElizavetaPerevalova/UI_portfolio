@@ -2,9 +2,13 @@ from playwright.sync_api import sync_playwright
 import sys
 import os
 import pytest
+from dotenv import load_dotenv
+
+# Загружаем переменные из .env файла
+load_dotenv()
 
 
-# logging
+# Custom logger to duplicate stdout/stderr to both console and a file
 class Tee:
     def __init__(self, *files):
         self.files = files
@@ -63,21 +67,24 @@ def _close_demo_modal(page):
 def logged_in_session():
     auth_file = "auth.json"
 
+    # Always delete the old auth file to ensure a clean session
     if os.path.exists(auth_file):
         print(f"[conftest] deleted previous {auth_file}")
         os.remove(auth_file)
 
     print("[conftest] login again")
     with sync_playwright() as p:
-        # ИЗМЕНЕНИЕ 1: Добавили args=["--start-maximized"]
         browser = p.chromium.launch(headless=False, args=["--start-maximized"])
-
-        # ИЗМЕНЕНИЕ 2: Добавили no_viewport=True
         context = browser.new_context(no_viewport=True)
         page = context.new_page()
 
+        # Получаем данные из .env (с дефолтными значениями, если файла нет)
+        base_url = os.getenv("BASE_URL", "https://phptravels.net")
+        email = os.getenv("CUSTOMER_EMAIL", "user@phptravels.com")
+        password = os.getenv("CUSTOMER_PASSWORD", "demouser")
+
         try:
-            page.goto("https://phptravels.net", wait_until="domcontentloaded")
+            page.goto(base_url, wait_until="domcontentloaded")
             page.wait_for_load_state("networkidle", timeout=15000)
             _close_demo_modal(page)
 
@@ -97,8 +104,8 @@ def logged_in_session():
             page.wait_for_url("**/login", timeout=15000)
             print("[conftest] on the login page")
 
-            page.locator("#email").fill("user@phptravels.com")
-            page.locator("#password").fill("demouser")
+            page.locator("#email").fill(email)
+            page.locator("#password").fill(password)
             page.locator("#password").press("Enter")
 
             page.wait_for_url("**/dashboard", timeout=20000)
@@ -114,10 +121,7 @@ def logged_in_session():
 @pytest.fixture
 def auth_page():
     with sync_playwright() as p:
-        # ИЗМЕНЕНИЕ 3: Добавили args=["--start-maximized"]
         browser = p.chromium.launch(headless=False, args=["--start-maximized"])
-
-        # ИЗМЕНЕНИЕ 4: Добавили no_viewport=True
         context = browser.new_context(
             storage_state="auth.json",
             no_viewport=True

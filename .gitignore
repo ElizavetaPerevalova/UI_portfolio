@@ -2,7 +2,7 @@
 .venv/
 env/
 venv/
-
+.env
 # Test Artifacts & Logs
 last_test_run.log
 *.log
@@ -29,3 +29,4 @@ playwright-report/
 
 #other
 drafts/
+.env

@@ -3,7 +3,7 @@ from datetime import datetime
 from playwright.sync_api import Page
 
 
-def test_flight_booking(auth_page: Page):
+def test_flight_booking(logged_in_session, auth_page: Page):
     auth_page.goto("https://phptravels.net", wait_until="domcontentloaded")
     print("[START] URL after 1st goto:", auth_page.url)
 
@@ -319,7 +319,7 @@ def test_flight_booking(auth_page: Page):
         auth_page.wait_for_timeout(500)
     else:
         print("[FINAL] ERROR: Confirm disabled. screenshot: final_form_error.png")
-        auth_page.screenshot(path="final_form_error.png")
+        auth_page.screenshot(path="../final_form_error.png")
         raise AssertionError("Confirm Booking disabled")
 
     confirm_btn.scroll_into_view_if_needed()
