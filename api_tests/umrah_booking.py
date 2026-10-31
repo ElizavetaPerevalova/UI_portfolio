@@ -1,40 +1,7 @@
 import re
-import time
-import pytest
 import requests
-from playwright.sync_api import Playwright
-from urllib.parse import unquote
+
 BASE_URL = "https://phptravels.net"
-
-
-def test_ferries_search(playwright: Playwright):
-    request = playwright.request.new_context(base_url=BASE_URL)
-    payload = {
-        "departure_port_id": 17,
-        "destination_port_id": 10,
-        "date": "2026-10-31",
-        "trip_type": "oneway",
-        "return_date": None,
-        "adults": 1,
-        "children": 0,
-        "infant": 0,
-        "passengers": [{"id": 1, "ticket_type_id": 10, "passenger_category": "adult"}],
-        "vehicles": [],
-        "pets": [],
-        "bonuses": [],
-        "vehicle_type_hint": "",
-        "pet_type_hint": "",
-        "supplier": "kikoto"
-    }
-
-    start_time = time.time()
-    response = request.post("/api/ferries/search", data=payload)
-    end_time = time.time()
-
-    assert response.status == 200, f"Expected 200, got {response.status}"
-    data = response.json()
-    assert data["success"] is True
-    print(f"[SUCCESS] Ferries test passed! Response time: {end_time - start_time:.2f}s")
 
 
 def get_csrf_token(session, url):

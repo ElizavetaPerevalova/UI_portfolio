@@ -7,6 +7,13 @@ from dotenv import load_dotenv
 # Загружаем переменные из .env файла
 load_dotenv()
 
+@pytest.fixture(scope="session")
+def credentials():
+    """Возвращает валидные учётные данные из .env (или дефолты)."""
+    return {
+        "email": os.getenv("CUSTOMER_EMAIL", "user@phptravels.com"),
+        "password": os.getenv("CUSTOMER_PASSWORD", "demouser"),
+    }
 
 # Custom logger to duplicate stdout/stderr to both console and a file
 class Tee:

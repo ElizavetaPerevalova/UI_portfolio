@@ -26,7 +26,7 @@ def test_stays_booking(logged_in_session, auth_page: Page):
     # --- Destination ---
     auth_page.locator("#st_dest_trigger").click()
     auth_page.locator("#st_dest_q").fill("New York")
-    auth_page.wait_for_timeout(1000)  # Ждем выпадашку
+    auth_page.wait_for_timeout(1000)
 
     # 1. Находим сам бейджик "City" (он есть только у нужной нам строки)
     city_badge = auth_page.locator("span:text-is('City'):visible").first
